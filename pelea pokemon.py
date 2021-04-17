@@ -1,12 +1,15 @@
 import random
 
-
 def pelea_pokemon():
     continuar = 's'
     vida_pikachu = 100
     vida_skirtle = 100
+    c = 0
     while continuar == 's' or continuar == 'S':
 
+        if c == 0:
+            c= c + 1
+            barra_de_vida(vida_pikachu, vida_skirtle)
         if vida_pikachu >= 1 and vida_skirtle >= 1:
             vida_skirtle = ataque_pikachu(vida_skirtle)
 
@@ -17,20 +20,41 @@ def pelea_pokemon():
             vida_pikachu = 100
             vida_skirtle = 100
             continuar = input('deseas continuar?:')
+            c = 0
 
         if vida_skirtle >= 1 and vida_pikachu >= 1:
             vida_pikachu = ataque_skirtle(vida_pikachu)
 
+            barra_de_vida(vida_pikachu, vida_skirtle)
         elif vida_skirtle <= 0:
+            barra_de_vida(vida_pikachu, vida_skirtle)
             print('as perdido :(')
             print(f'el pikachu salvage se escapa con {vida_pikachu} puntos de vida')
+
+
             vida_pikachu = 100
             vida_skirtle = 100
             continuar = input('deseas continuar?:')
+            c = 0
+
+def barra_de_vida(vida_pikachu, vida_skirtle):
+    vida1 = 0
+    vida1p = 0
+    vida1 = int(vida_pikachu / 10)
+    vida1p= int(10 - vida_pikachu / 10)
+    if vida1 + vida1p != 10:
+        vida1p = 10 - vida1
+
+    print(f'vida pikachu = [' + '$' * int(vida_pikachu / 10) + '-' * vida1p + ']')
+    vida1 = int(vida_skirtle / 10)
+    vida1p = int(10 - vida_skirtle / 10)
+    if vida1 + vida1p != 10:
+        vida1p = 10 - vida1
+    print(f'vida skirtle = [' + '#' * int(vida_skirtle / 10) + '-' * vida1p + ']')
 
 
 def ataque_skirtle(vida):
-    print('elige un ataque')
+    print('\nelige un ataque')
     print('a: chorro de agua')
     print('b: oleada')
     print('c: beber agua')
@@ -57,28 +81,29 @@ def ataque_skirtle(vida):
         else:
             print(f'le quitaste {potencia} puntos de vida')
     print(f'le quedan {vida} puntos de vida')
-    print('\n')
+
     return vida
 
 
 def ataque_pikachu(vida):
     atac = random.randint(1, 3)
     if atac == 1:
-        print('pikachu eligio inpactrueno!!')
+        print('-pikachu eligio inpactrueno!!')
         print('ataque critico!! -20 de vida ')
         vida -= 20
-        print(f'solo te qudan {vida} puntos de vida')
     elif atac == 2:
-        print('pikachu eligio coletazo!!')
+        print('-pikachu eligio coletazo!!')
         print('-10 de vida')
         vida -= 10
-        print(f'solo te qudan {vida} puntos de vida')
+
     else:
-        print('pikachu intento hecharte agua pero fallo')
-    print('\n')
+        print('-pikachu intento hecharte agua pero fallo')
+
     return vida
 
 
 # espacio para funciones principales
 # funcion principal
 pelea_pokemon()
+
+
