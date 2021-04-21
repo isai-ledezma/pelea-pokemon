@@ -1,4 +1,5 @@
 import random
+import os
 
 def pelea_pokemon():
     continuar = 's'
@@ -7,37 +8,56 @@ def pelea_pokemon():
     c = 0
     while continuar == 's' or continuar == 'S':
 
-        if c == 0:
-            c= c + 1
-            barra_de_vida(vida_pikachu, vida_skirtle)
+        if c != 0:
+            vida_pikachu = 100
+            vida_skirtle = 100
+            c = 0
+          #  barra_de_vida(vida_pikachu, vida_skirtle)
         if vida_pikachu >= 1 and vida_skirtle >= 1:
             vida_skirtle = ataque_pikachu(vida_skirtle)
+            print('')
+            #if c != 1:
+            barra_de_vida(vida_pikachu, vida_skirtle)
 
-        elif vida_pikachu <= 0:
+            input('enter para continuar')
+
+            os.system("cls")
+        '''    else:
+                c += 1'''
+
+        if vida_pikachu <= 0:
+            os.system('cls')
+            vida_pikachu = 0
             print('felicidades!!!')
             print('has ganado')
             print('atrapaste un pichachu')
-            vida_pikachu = 100
-            vida_skirtle = 100
+
+            c += 1
+
             continuar = input('deseas continuar?:')
-            c = 0
+
+            os.system('cls')
 
         if vida_skirtle >= 1 and vida_pikachu >= 1:
-            vida_pikachu = ataque_skirtle(vida_pikachu)
 
-            barra_de_vida(vida_pikachu, vida_skirtle)
+            vida_pikachu = ataque_skirtle(vida_pikachu)
+            print('')
+
+
         elif vida_skirtle <= 0:
+            vida_skirtle = 0
+            os.system('cls')
             barra_de_vida(vida_pikachu, vida_skirtle)
             print('as perdido :(')
             print(f'el pikachu salvage se escapa con {vida_pikachu} puntos de vida')
 
+            c+=1
 
-            vida_pikachu = 100
-            vida_skirtle = 100
             continuar = input('deseas continuar?:')
-            c = 0
+
 
 def barra_de_vida(vida_pikachu, vida_skirtle):
+    print('')
     vida1 = 0
     vida1p = 0
     vida1 = int(vida_pikachu / 10)
@@ -45,21 +65,26 @@ def barra_de_vida(vida_pikachu, vida_skirtle):
     if vida1 + vida1p != 10:
         vida1p = 10 - vida1
 
-    print(f'vida pikachu = [' + '$' * int(vida_pikachu / 10) + '-' * vida1p + ']')
+    print(f'vida pikachu = [' + '$' * int(vida_pikachu / 10) + '-' * vida1p + f']{vida_pikachu}')
     vida1 = int(vida_skirtle / 10)
     vida1p = int(10 - vida_skirtle / 10)
     if vida1 + vida1p != 10:
         vida1p = 10 - vida1
-    print(f'vida skirtle = [' + '#' * int(vida_skirtle / 10) + '-' * vida1p + ']')
+    print(f'vida skirtle = [' + '#' * int(vida_skirtle / 10) + '-' * vida1p + f']{vida_skirtle}')
+    print('')
+
 
 
 def ataque_skirtle(vida):
+    ataques_posibles = ['a', 'A', 'b', 'B', 'c', 'C', 'd', 'D']
     print('\nelige un ataque')
     print('a: chorro de agua')
     print('b: oleada')
     print('c: beber agua')
+    print('d: no hacer nada')
     op = None
-    while op != 'a' and op != 'b' and op != 'c':
+    potencia = 69
+    while op not in ataques_posibles:
         op = input('?:')
 
         if op == 'a':
@@ -71,15 +96,21 @@ def ataque_skirtle(vida):
         elif (op == 'c'):
             potencia = random.randint(0, 5)
             vida -= potencia
+        elif (op == 'd'):
+            potencia = 0
+            print('no haces nada huevon')
         else:
             print('opcion incorrecta vuelve a elegir')
+        if potencia != 69:
+            if potencia >= 15:
+                print(f'ataque critico le quitaste {potencia} puntos de vida')
+            elif potencia == 0 and op !='d':
+                print('se te cebo no le quitaste nada')
 
-        if potencia >= 15:
-            print(f'ataque critico le quitaste {potencia} puntos de vida')
-        elif potencia == 0:
-            print('se te cebo no le quitaste nada')
-        else:
-            print(f'le quitaste {potencia} puntos de vida')
+            elif potencia == 69:
+                print('')
+            else:
+                print(f'le quitaste {potencia} puntos de vida')
     print(f'le quedan {vida} puntos de vida')
 
     return vida
@@ -107,3 +138,4 @@ def ataque_pikachu(vida):
 pelea_pokemon()
 
 
+     
